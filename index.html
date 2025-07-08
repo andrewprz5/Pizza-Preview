@@ -1,94 +1,188 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Spectacular Pizzeria Preview</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <title>Brick Oven Slice</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Inter', sans-serif; }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body { background-color: #fff; color: #333; line-height: 1.6; }
+    header {
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1601924582975-7ec9b8d91b4a') no-repeat center center/cover;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      color: white;
+      padding: 0 1rem;
+    }
+    header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    header p { font-size: 1.1rem; margin-bottom: 1.5rem; max-width: 90%; }
+    header a {
+      background: #e63946;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    section { padding: 2rem 1rem; max-width: 800px; margin: auto; }
+    .menu-item { margin-bottom: 1rem; }
+    .menu-item h3 { margin-bottom: 0.25rem; }
+    .menu-item img { border: 2px solid black; border-radius: 10px; }
+    .benefits ul { list-style-type: none; padding-left: 0; }
+    .benefits li { margin-bottom: 0.75rem; }
+    .map-hours { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
+    iframe { width: 100%; height: 300px; border: none; }
+    @media (min-width: 600px) {
+      .map-hours { flex-direction: row; justify-content: space-between; }
+      .hours, iframe { flex: 1; }
+    }
+    .testimonials {
+      background-color: #f8f8f8;
+      padding: 2rem 1rem;
+      margin-top: 2rem;
+    }
+    .testimonial {
+      margin-bottom: 1.5rem;
+      font-style: italic;
+    }
+    .testimonial span {
+      display: block;
+      font-weight: bold;
+      margin-top: 0.5rem;
+    }
+    .before-after {
+      margin: 2rem auto;
+      text-align: center;
+    }
+    .before-after img {
+      width: 45%;
+      margin: 0 2%;
+      border: 1px solid #ccc;
+    }
+    .order-demo {
+      background-color: #fff0e6;
+      padding: 2rem 1rem;
+      text-align: center;
+      border: 1px solid #f4d4c9;
+      margin-top: 2rem;
+    }
+    .order-demo h2 { margin-bottom: 1rem; }
+    .fake-cart {
+      margin-top: 1rem;
+      display: inline-block;
+      padding: 1rem 2rem;
+      background: #e63946;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .no-site-callout {
+      background: #ffe9e6;
+      padding: 2rem;
+      margin: 2rem auto;
+      border: 1px solid #f5c6c0;
+      text-align: center;
+    }
+    .no-site-callout h2 {
+      color: #c0392b;
+      margin-bottom: 1rem;
+    }
+    .no-site-callout p {
+      font-size: 1.1rem;
+      line-height: 1.5;
+    }
+    footer { text-align: center; padding: 2rem 1rem; font-size: 0.9rem; color: #777; }
   </style>
 </head>
-<body class="bg-white text-gray-900">
+<body>
+  <header>
+    <img src="https://ninospizzaonline.com/wp-content/uploads/2016/01/Ninos-Pizza-Logo.png" alt="logo" height="300" width="800">
+    <h1>Your Pizzeria Deserves an Online Home</h1>
+    <p>We built this preview to show how your restaurant could start getting online orders today—no apps, no fees, no hassle.</p>
+    <a href="#menu">See Demo Site</a>
+  </header>
 
-  <!-- Hero -->
-  <section class="bg-red-600 text-white py-20 px-6 text-center">
-    <img src="https://static.vecteezy.com/system/resources/thumbnails/011/157/909/small_2x/pizzeria-emblem-on-blackboard-pizza-logo-template-emblem-for-cafe-restaurant-or-food-delivery-service-vector.jpg" alt="Iggy's Logo" class="mx-auto h-24 mb-6">
-    <h1 class="text-4xl font-bold mb-4">Order Direct from Redbrick Pizzeria</h1>
-    <p class="text-lg mb-6">No fees. No middlemen. Just fresh pizza and local flavor.</p>
-    <a href="#menu" class="bg-white text-red-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-200 transition">Start Your Order</a>
+  <section class="no-site-callout">
+    <h2>No Website? No Problem.</h2>
+    <p>We help independent pizzerias like yours go from zero/minimal online presence to full mobile-optimized websites that let customers order directly—saving you time and keeping more profit in your pocket.</p>
   </section>
 
-  <!-- About -->
-  <section class="py-16 px-6 max-w-3xl mx-auto text-center">
-    <h2 class="text-3xl font-bold mb-4">A Hawthorne Favorite Since 2025</h2>
-    <p class="text-lg">At Redbrick Pizzeria, we’ve been serving slices and sandwiches to local customers since we opened. It's a great honor to be serving in the Hawthorne community. We hope to satisfy our customrs and make them feel they're at home.</p>
-  </section>
-
-  <!-- Menu Teaser -->
-  <section id="menu" class="bg-gray-100 py-16 px-6">
-    <div class="max-w-5xl mx-auto">
-      <h2 class="text-3xl font-bold text-center mb-8">Popular Picks</h2>
-      <div class="grid md:grid-cols-3 gap-6">
-        <div class="bg-white p-4 rounded shadow">
-          <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGl6emF8ZW58MHx8MHx8fDA%3D" alt="Classic Pizza" class="w-full h-48 object-cover rounded mb-4">
-          <h3 class="text-xl font-semibold">Classic Pizza</h3>
-          <p>$12 – Simple, cheesy and rich in flavor - the Ultimate Classic.</p>
-        </div>
-        <div class="bg-white p-4 rounded shadow">
-          <img src="https://thewapexpress.com/wp-content/uploads/2023/10/pexels-renestrgar-18431672-scaled.jpg" alt="Margherita Pizza" class="w-full h-48 object-cover rounded mb-4">
-          <h3 class="text-xl font-semibold">Margherita</h3>
-          <p>$13 – Fresh basil, tomato, mozzarella — splendor choice.</p>
-        </div>
-        <div class="bg-white p-4 rounded shadow">
-          <img src="https://recipesthrone.com/wp-content/uploads/2025/03/Close-up-of-a-crispy-chicken-parmesan-sandwich-with-marinara-sauce-and-melted-mozzarella-on-a-toasted-ciabatta-bun.webp" alt="Chicken Parm Sandwich" class="w-full h-48 object-cover rounded mb-4">
-          <h3 class="text-xl font-semibold">Chicken Parm Sandwich</h3>
-          <p>$10 – Chicken cutlet, marinara sauce, mozzarella cheese on a toasted Italian roll — crispy, cheesy, and saucy.</p>
-        </div>
-      </div>
+  <section id="menu">
+    <h2>Menu Highlights</h2>
+    <div class="menu-item">
+        <img src="https://slice-menu-assets-prod.imgix.net/9864/1604384550_f24cb8131a?fit=crop&w=480&h=480" alt="item1" height="300" width="300">
+      <h3>Classic Margherita</h3>
+      <p>Fresh tomatoes, mozzarella, and basil. $12 <button class="fake-cart">Add to Cart</button></p>
+    </div>
+    <div class="menu-item">
+        <img src="https://slice-menu-assets-prod.imgix.net/9864/1613588278_6ad5363402?fit=crop&w=480&h=480" alt="item2" height="300" width="300">
+      <h3>Pepperoni Feast</h3>
+      <p>Loaded with premium pepperoni. $14 <button class="fake-cart">Add to Cart</button></p>
+    </div>
+    <div class="menu-item">
+        <img src="https://slice-menu-assets-prod.imgix.net/9864/1604384437_18ea4934fe?fit=crop&w=480&h=480" alt="item3" height="300" width="300">
+      <h3>Veggie Supreme</h3>
+      <p>Bell peppers, olives, onions, and mushrooms. $13 <button class="fake-cart">Add to Cart</button></p>
     </div>
   </section>
 
-  <!-- Why Order Direct -->
-  <section class="py-16 px-6 max-w-4xl mx-auto">
-    <h2 class="text-3xl font-bold text-center mb-8">Why Order Direct?</h2>
-    <div class="grid md:grid-cols-2 gap-6 text-lg">
-      <div class="bg-white p-6 border rounded shadow">
-        <h3 class="text-xl font-semibold mb-2">With Slice</h3>
-        <ul class="list-disc ml-5 space-y-1">
-          <li>15%+ in fees per order</li>
-          <li>Generic template site</li>
-          <li>No Google search boost</li>
-          <li>Limited customer retention</li>
-        </ul>
-      </div>
-      <div class="bg-green-50 p-6 border rounded shadow">
-        <h3 class="text-xl font-semibold mb-2">With Redbrick's Direct</h3>
-        <ul class="list-disc ml-5 space-y-1">
-          <li>0% order fees</li>
-          <li>Fully branded site</li>
-          <li>SEO optimized for visibility</li>
-          <li>More loyal customers, more profit</li>
-        </ul>
-      </div>
+  <section class="order-demo">
+    <h2>Try a Direct Order Demo</h2>
+    <p>Save up to 30% per order by cutting out delivery platforms. Keep your profits in-house.</p>
+    <a class="fake-cart" onclick="alert('Demo checkout — Imagine Stripe integration here.')">Checkout Now</a>
+  </section>
+
+  <section class="before-after">
+    <h2>Your Current Site vs. Modern Upgrade</h2>
+    <img src="../ninos-slice-site.jpg" alt="No Site" />
+    <img src="../ninos-actual-upgrade.jpg" alt="New Site" />
+    <p>Over 70% of pizza orders come from mobile—don't miss out by having no website at all.</p>
+  </section>
+
+  <section class="benefits">
+    <h2>Why Order Direct?</h2>
+    <ul>
+      <li>✅ Save up to 30% on every order</li>
+      <li>✅ Instant orders—no 3rd party wait time</li>
+      <li>✅ Loyal customers = higher lifetime value</li>
+    </ul>
+  </section>
+
+  <section class="testimonials">
+    <h2>What Our Customers Say</h2>
+    <div class="testimonial">
+      “Super fast and easy to order. I’ll never use the apps again.”
+      <span>— Jenna R., Local Foodie</span>
+    </div>
+    <div class="testimonial">
+      “Clean site, works great on my phone. The pizza was hot and on time.”
+      <span>— Marcus L., Repeat Customer</span>
+    </div>
+    <div class="testimonial">
+      “I love that more of my money goes to the shop instead of apps.”
+      <span>— Kayla D., Loyal Patron</span>
     </div>
   </section>
 
-  <!-- Location & Hours -->
-  <section class="bg-gray-900 text-white py-16 px-6 text-center">
-    <h2 class="text-3xl font-bold mb-4">Visit or Call Us</h2>
-    <p class="mb-2">123 Main St, Hawthorne, NJ</p>
-    <p></p>
-    <p class="mb-6">Open Mon-Fri 11AM-10PM<br>Sat 11AM-11PM<br>Sun 12PM-8PM</p>
-    <a href="tel:+19734277555" class="bg-red-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-red-600 transition">Call Now</a>
+  <section class="map-hours">
+    <iframe src="https://maps.google.com/maps?q=Pizza&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+    <div class="hours">
+      <h2>Hours & Contact</h2>
+      <p>Mon–Fri: 11am – 10pm<br/>Sat–Sun: 12pm – 11pm</p>
+      <p>Call us: (123) 456-7890</p>
+    </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="bg-gray-100 text-center text-sm py-6">
-    <p>Website preview by Redbrick Collective. Want one like this? <a href="https://redbrick-porfolio.netlify.app">Let's talk.</a></p>
+  <footer>
+    © 2025 Brick Oven Slice. All rights reserved.
   </footer>
-
 </body>
 </html>
