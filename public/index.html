@@ -180,26 +180,32 @@
     © 2025 Brick Oven Slice. All rights reserved.
   </footer>
   <script>
-  const placeId = "ChIJLf5g-o3lwokRqaRfyFWdrRI"; // Your business Place ID
-  const apiKey = process.env.GOOGLE_API_KEY; // Replace with your real API key
+  const placeId = "ChIJLf5g-o3lwokRqaRfyFWdrRI"; 
 
   fetch('/api/reviews')
   .then(res => res.json())
   .then(reviews => {
-    const container = document.getElementById('google-reviews');
-    reviews.slice(0, 3).forEach(review => {
-      const div = document.createElement('div');
-      div.className = 'testimonial';
-      const roundedRating = Math.round(review.rating);
-      const stars = '★'.repeat(roundedRating) + '☆'.repeat(5 - roundedRating);
-      div.innerHTML = `
-        <div class="stars">${stars}</div>
-        “${review.text}”
-        <span>— ${review.author_name}</span>
-      `;
-      container.appendChild(div);
-    });
-  })
+  const container = document.getElementById('google-reviews');
+  container.innerHTML = '';
+
+  if (!Array.isArray(reviews)) {
+    console.error("Expected reviews array, got:", reviews);
+    container.innerHTML = '<p>Could not load reviews.</p>';
+    return;
+  }
+
+  reviews.slice(0, 5).forEach(review => {
+    const div = document.createElement('div');
+    div.className = 'review';
+    div.innerHTML = `
+      <strong>${review.author_name}</strong> - ⭐️ ${review.rating}<br>
+      <em>${review.relative_time_description}</em>
+      <p>${review.text}</p>
+    `;
+    container.appendChild(div);
+  });
+})
+
   .catch(err => console.error("Error loading Google reviews:", err));
 
 </script>
