@@ -4,7 +4,7 @@ const express = require('express');
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
 const app = express(); // ← THIS was missing
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 const apiKey = process.env.GOOGLE_API_KEY; // Replace with your actual API key
 const placeId = 'ChIJLf5g-o3lwokRqaRfyFWdrRI';
