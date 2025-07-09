@@ -181,7 +181,7 @@
   </footer>
   <script>
   const placeId = "ChIJLf5g-o3lwokRqaRfyFWdrRI"; // Your business Place ID
-  const apiKey = "AIzaSyDYLBsaIWxBO8j-BaSgiDBU99sPjvd3Nbs"; // Replace with your real API key
+  const apiKey = process.env.GOOGLE_API_KEY; // Replace with your real API key
 
   fetch('/api/reviews')
   .then(res => res.json())

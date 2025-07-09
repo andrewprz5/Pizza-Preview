@@ -1,10 +1,12 @@
+require('dotenv').config();
+
 const express = require('express');
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
 const app = express(); // ← THIS was missing
 const PORT = 3000;
 
-const apiKey = 'AIzaSyDYLBsaIWxBO8j-BaSgiDBU99sPjvd3Nbs'; // Replace with your actual API key
+const apiKey = process.env.GOOGLE_API_KEY; // Replace with your actual API key
 const placeId = 'ChIJLf5g-o3lwokRqaRfyFWdrRI';
 
 app.use(express.static('public')); // Serve static files from /public folder
