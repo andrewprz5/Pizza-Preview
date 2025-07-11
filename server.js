@@ -64,7 +64,7 @@ app.post('/create-checkout-session', async (req, res) => {
 
 // API route to fetch reviews
 app.get('/api/reviews', async (req, res) => {
-  const placeId = 'ChIJLf5g-o3lwokRqaRfyFWdrRI'; // Replace with your pizzeria's real Place ID
+  const placeId = 'ChIJwSPRlqf6wokR_Uxs4NwgrmI'; // Replace with your pizzeria's real Place ID
   const apiKey = process.env.GOOGLE_API_KEY;
 
   const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,rating,reviews&key=${apiKey}`;
