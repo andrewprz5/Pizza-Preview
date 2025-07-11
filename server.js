@@ -15,7 +15,8 @@ app.use(express.static('public'));
 app.use(express.json());
 
 app.post('/create-checkout-session', async (req, res) => {
-  const session = await stripe.checkout.session.create({
+  try {
+    const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
     line_items: [
       {
@@ -35,6 +36,10 @@ app.post('/create-checkout-session', async (req, res) => {
   });
 
   res.json({ id: session.id });
+  } catch (err) {
+    console.error('Stripe error:', err);
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // API route to fetch reviews
