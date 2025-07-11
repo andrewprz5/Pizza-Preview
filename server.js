@@ -6,7 +6,7 @@ const Stripe = require('stripe');
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4242;
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
@@ -30,7 +30,7 @@ app.post('/create-checkout-session', async (req, res) => {
       },
     ],
     mode: 'payment',
-    success_url: 'https://https://pizza-preview.onrender.com/sucess',
+    success_url: 'https://pizza-preview.onrender.com/sucess',
     cancel_url: 'https://pizza-preview.onrender.com/cancel',
   });
 
@@ -112,5 +112,3 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
-
-app.listen(4242, () => console.log('Server running on port 4242'));
