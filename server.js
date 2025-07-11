@@ -31,7 +31,7 @@ app.post('/create-checkout-session', async (req, res) => {
       },
     ],
     mode: 'payment',
-    success_url: 'https://pizza-preview.onrender.com/sucess',
+    success_url: 'https://pizza-preview.onrender.com/success',
     cancel_url: 'https://pizza-preview.onrender.com/cancel',
   });
 
