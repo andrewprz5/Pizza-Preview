@@ -29,6 +29,26 @@ app.post('/create-checkout-session', async (req, res) => {
         },
         quantity: 1,
       },
+      {
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name: 'BLT Sandwich',
+          },
+          unit_amount: 495,
+        },
+        quantity: 1,
+      },
+      {
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name: 'Macaroni Salad',
+          },
+          unit_amount: 495,
+        },
+        quantity: 1,
+      },
     ],
     mode: 'payment',
     success_url: 'https://pizza-preview.onrender.com/success',
