@@ -133,6 +133,14 @@ app.get('/', (req, res) => {
   `);
 });
 
+app.get('/success', (req, res) => {
+  res.send('<h1>Payment successful!</h1><p>Thank you for your order!</p>');
+});
+
+app.get('/cancel', (req, res) => {
+  res.send('<h1>Order canceled</h1><p>You canceled your order. Feel free to try again!</p>');
+})
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
