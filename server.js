@@ -1,6 +1,5 @@
 require('dotenv').config();
 const fs = require('fs');
-
 const express = require('express');
 const Stripe = require('stripe');
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
@@ -9,9 +8,9 @@ const app = express();
 const PORT = process.env.PORT || 4242;
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
 const nodemailer = require('nodemailer');
-
 const twilio = require('twilio');
 
 const twilioClient = twilio(
@@ -33,14 +32,14 @@ let transporter;
 
 // Serve static files (if you add CSS, images, etc. later)
 app.use(express.static('public'));
-app.use(express.json());
-app.use('/webhook', express.raw({ type: 'application/json' }));
 
-const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+app.post('/webhook', express.raw({ type: 'application/json' }));
+
+app.use(express.json());
+
 
 app.post('/webhook', (req, res) => {
   const sig = req.headers['stripe-signature'];
-
   let event;
 
   try {
