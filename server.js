@@ -34,6 +34,61 @@ let transporter;
 // Serve static files (if you add CSS, images, etc. later)
 app.use(express.static('public'));
 app.use(express.json());
+app.use('/webhook', express.raw({ type: 'application/json' }));
+
+const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+app.post('/webhook', (req, res) => {
+  const sig = req.headers['stripe-signature'];
+
+  let event;
+
+  try {
+    event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+  } catch (err) {
+    console.error('Webhook signature verification failed:', err.message);
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+
+  if (event.type === 'checkout.session.completed') {
+    const session = event.data.object;
+
+    console.log('Payment succeeded, sending email and SMS...');
+
+    transporter.sendMail({
+      from: `"Pizza Preview" <${process.env.EMAIL_USER}>`,
+      to: "amarona349@gmail.com",
+      subject: "Order Confirmation",
+      text: `New Order:
+      - 1x Large Pepperoni Pizza
+      - 2x Coke
+      Pickup: 7:15 PM
+      Paid: $18.25`,
+      html: `<b>New Order: </b><p>
+      - 1x Large Pepperoni Pizza
+      - 2x Coke
+      Pickup: 7:15 PM
+      Paid: $18.25
+      </p>`,
+    }).catch(e => console.error('Email send error:', e));
+
+    twilioClient.messages.create({
+      body: `New Order:
+      - 1x Large Pepperoni Pizza
+      - 2x Coke
+      Pickup: 7:15 PM
+      Paid: $18.25`,
+      from: process.env.TWILIO_PHONE_FROM,
+      to: process.env.TWILIO_PHONE_TO,
+    }).then(() => {
+      console.log('SMS sent successfully!');
+    }).catch(twilioErr => {
+      console.error('Twilio error:', twilioErr);
+    });
+  } 
+
+  res.json({ received: true });
+});
 
 // API route to fetch reviews
 app.get('/api/reviews', async (req, res) => {
@@ -153,33 +208,6 @@ app.post('/create-checkout-session', async (req, res) => {
       mode: 'payment',
       success_url: 'https://pizza-preview.onrender.com/success.html',
       cancel_url: 'https://pizza-preview.onrender.com/index.html',
-    });
-
-    await transporter.sendMail({
-      from: `"Pizza Preview" <${process.env.EMAIL_USER}>`,
-      to: "amarona349@gmail.com",
-      subject: "Order Confirmation",
-      text: `New Order:
-      - 1x Large Pepperoni Pizza
-      - 2x Coke
-      Pickup: 7:15 PM
-      Paid: $18.25`,
-      html: `<b>New Order: </b><p>
-      - 1x Large Pepperoni Pizza
-      - 2x Coke
-      Pickup: 7:15 PM
-      Paid: $18.25
-      </p>`,
-    });
-
-    await twilioClient.messages.create({
-      body: `New Order: 
-      - 1x Large Pepperoni Pizza
-      - 2x Coke
-      Pickup: 7:15 PM
-      Paid: $18.25`,
-      from: process.env.TWILIO_PHONE_FROM,
-      to: process.env.TWILIO_PHONE_TO,
     });
 
     res.json({ id: session.id });
