@@ -24,7 +24,8 @@
     "express": "^5.1.0",
     "node-fetch": "^3.3.2",
     "nodemailer": "^7.0.5",
-    "stripe": "^18.3.0"
+    "stripe": "^18.3.0",
+    "twilio": "^5.7.3"
   },
   "devDependencies": {
     "webpack": "^5.100.1",

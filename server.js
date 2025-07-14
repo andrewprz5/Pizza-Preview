@@ -12,6 +12,13 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const nodemailer = require('nodemailer');
 
+const twilio = require('twilio');
+
+const twilioClient = twilio(
+  process.env.TWILIO_ACCOUNT_SID,
+  process.env.TWILIO_AUTH_TOKEN
+);
+
 let transporter;
 
 (async () => {
@@ -152,8 +159,27 @@ app.post('/create-checkout-session', async (req, res) => {
       from: `"Pizza Preview" <${process.env.EMAIL_USER}>`,
       to: "amarona349@gmail.com",
       subject: "Order Confirmation",
-      text: `Thank you for your order! Your delicious food is being prepared.`,
-      html: `<b>Thank you for your order!</b><p>Your delicious food is being prepared.</p>`,
+      text: `New Order:
+      - 1x Large Pepperoni Pizza
+      - 2x Coke
+      Pickup: 7:15 PM
+      Paid: $18.25`,
+      html: `<b>New Order: </b><p>
+      - 1x Large Pepperoni Pizza
+      - 2x Coke
+      Pickup: 7:15 PM
+      Paid: $18.25
+      </p>`,
+    });
+
+    await twilioClient.messages.create({
+      body: `New Order: 
+      - 1x Large Pepperoni Pizza
+      - 2x Coke
+      Pickup: 7:15 PM
+      Paid: $18.25`,
+      from: process.env.TWILIO_PHONE_FROM,
+      to: process.env.TWILIO_PHONE_TO,
     });
 
     res.json({ id: session.id });
