@@ -10,57 +10,23 @@ const PORT = process.env.PORT || 4242;
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
+const nodemailer = require('nodemailer');
+
+let transporter;
+
+(async () => {
+  transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+})();
+
 // Serve static files (if you add CSS, images, etc. later)
 app.use(express.static('public'));
 app.use(express.json());
-
-app.post('/create-checkout-session', async (req, res) => {
-  try {
-    const session = await stripe.checkout.sessions.create({
-    payment_method_types: ['card'],
-    line_items: [
-      {
-        price_data: {
-          currency: 'usd',
-          product_data: {
-            name: 'Italian Hero',
-          },
-          unit_amount: 695,
-        },
-        quantity: 1,
-      },
-      {
-        price_data: {
-          currency: 'usd',
-          product_data: {
-            name: 'BLT Sandwich',
-          },
-          unit_amount: 495,
-        },
-        quantity: 1,
-      },
-      {
-        price_data: {
-          currency: 'usd',
-          product_data: {
-            name: 'Macaroni Salad',
-          },
-          unit_amount: 495,
-        },
-        quantity: 1,
-      },
-    ],
-    mode: 'payment',
-    success_url: 'https://pizza-preview.onrender.com/success',
-    cancel_url: 'https://pizza-preview.onrender.com/cancel',
-  });
-
-  res.json({ id: session.id });
-  } catch (err) {
-    console.error('Stripe error:', err);
-    res.status(500).json({ error: err.message });
-  }
-});
 
 // API route to fetch reviews
 app.get('/api/reviews', async (req, res) => {
@@ -104,7 +70,7 @@ app.get('/', (req, res) => {
           fetch('/api/reviews')
             .then(res => res.json())
             .then(reviews => {
-              const container = document.getElementById('reviews');
+              const container = document.getElementById('google-reviews');
               container.innerHTML = '';
 
               if (!reviews || !reviews.length) {
@@ -140,6 +106,62 @@ app.get('/success', (req, res) => {
 app.get('/cancel', (req, res) => {
   res.send('<h1>Order canceled</h1><p>You canceled your order. Feel free to try again!</p>');
 })
+
+app.post('/create-checkout-session', async (req, res) => {
+  try {
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: 'Italian Hero',
+            },
+            unit_amount: 695,
+          },
+          quantity: 1,
+        },
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: 'BLT Sandwich',
+            },
+            unit_amount: 495,
+          },
+          quantity: 1,
+        },
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: 'Macaroni Salad',
+            },
+            unit_amount: 495,
+          },
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      success_url: 'https://pizza-preview.onrender.com/success.html',
+      cancel_url: 'https://pizza-preview.onrender.com/index.html',
+    });
+
+    await transporter.sendMail({
+      from: `"Pizza Preview" <${process.env.EMAIL_USER}>`,
+      to: "amarona349@gmail.com",
+      subject: "Order Confirmation",
+      text: `Thank you for your order! Your delicious food is being prepared.`,
+      html: `<b>Thank you for your order!</b><p>Your delicious food is being prepared.</p>`,
+    });
+
+    res.json({ id: session.id });
+  } catch (err) {
+    console.error('Stripe error:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
 
 // Start the server
 app.listen(PORT, () => {
